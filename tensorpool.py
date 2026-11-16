@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2024 ETH Zurich and University of Bologna
+# Copyright (C) 2020 ETH Zurich and University of Bologna
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-GVSOC_ROOT ?= ../../../..
-TARGET = test
-CASE ?= 1d_small
-TARGET := $(TARGET):case=$(CASE)
 
-include $(GVSOC_ROOT)/gvsoc/core/tests/common.mk
+from pulp.mempool.mempool_system import TensorpoolSystem
+import gvsoc.runner as gvsoc
+
+GAPY_TARGET = True
+
+class Target(gvsoc.Target):
+
+    gapy_description = "TensorpoolSystem"
+    model = TensorpoolSystem
+    name = "tensorpool"
+
+    def __init__(self, parser, options=None, name=None):
+        super(Target, self).__init__(parser, options,
+            model=TensorpoolSystem, description="TensorpoolSystem", name=name)
